@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { GoMoveToEnd } from "react-icons/go";
 
 const Services = () => {
     const [services, setServices] = useState([])
 
     useEffect(() => {
-        fetch('services.json')
+        fetch('http://localhost:5000/services')
             .then(res => res.json())
             .then(data => setServices(data))
     }, [])
@@ -27,7 +28,8 @@ const Services = () => {
                                 <h2 className="card-title"> {service.title} </h2>
                                 <div className="card-actions justify-end">
                                     <p className="text-red-500 font-bold text-xl">Price : ${service.price}</p>
-                                    <Link to='/'><p>go</p></Link>
+                                    <button><Link to={`/services/${service._id}`}><GoMoveToEnd /></Link></button>
+                                    
                                 </div> 
                             </div>
                         </div>

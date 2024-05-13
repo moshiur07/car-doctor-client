@@ -1,14 +1,37 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
+import { useContext } from 'react';
+import { AuthContext } from '../../Auth/AuthProvider';
+import axios from 'axios';
 
 const Login = () => {
-    const handleLogin = e =>{
+    const { login } = useContext(AuthContext)
+
+    const location = useLocation()
+    console.log(location);
+    const navigate = useNavigate()
+
+    const handleLogin = e => {
         e.preventDefault()
         const form = e.target
         const email = form.email.value
         const password = form.password.value
 
-        console.log(email,password);
+        login(email, password)
+            .then(res => {
+                console.log(res.user)
+
+                const user = {email}
+
+                axios.post('http://localhost:5000/jwt',user)
+                .then(data => console.log(data.data))
+                // navigate(location?.state ? location?.state : '/')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(email, password);
     }
     return (
         <div className="hero min-h-screen ">
